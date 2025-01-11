@@ -34,16 +34,20 @@ const ChatInterface: React.FC = () => {
     setIsLoading(true);
 
     try {
-      // В дальнейшем здесь будет ваш реальный API endpoint
-      const response = await fetch('http://localhost:3001/chat', {
+      const response = await fetch('https://api.cari1412.online/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
+          'Accept': 'application/json'
         },
         body: JSON.stringify({
           message: input
         }),
       });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
 
       const data = await response.json();
       
@@ -55,7 +59,7 @@ const ChatInterface: React.FC = () => {
       console.error('Error:', error);
       setMessages(prev => [...prev, {
         role: 'system',
-        content: 'Произошла ошибка при получении ответа.'
+        content: 'Произошла ошибка при получении ответа. Пожалуйста, попробуйте позже.'
       }]);
     } finally {
       setIsLoading(false);
