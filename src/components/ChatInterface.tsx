@@ -67,14 +67,14 @@ const ChatInterface: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-[600px] bg-white rounded-lg shadow-lg">
+    <div className="flex flex-col h-screen bg-white">
       {/* Header */}
-      <div className="bg-gray-800 text-white px-6 py-4 rounded-t-lg">
+      <div className="bg-gray-800 text-white px-6 py-4">
         <h2 className="text-xl font-semibold">Чат с GPT</h2>
       </div>
 
       {/* Messages Container */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.map((message, index) => (
           <div
             key={index}
@@ -91,7 +91,7 @@ const ChatInterface: React.FC = () => {
                   : 'bg-gray-100 text-gray-800'
               }`}
             >
-              <p className="whitespace-pre-wrap">{message.content}</p>
+              <p className="whitespace-pre-wrap break-words">{message.content}</p>
             </div>
           </div>
         ))}
