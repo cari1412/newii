@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Send, Loader2 } from 'lucide-react';
+import { Send, Loader2, Paperclip } from 'lucide-react';
 
 interface Message {
   role: 'user' | 'assistant' | 'system';
@@ -11,6 +11,7 @@ const ChatInterface: React.FC = () => {
   const [input, setInput] = useState<string>('');
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -19,6 +20,22 @@ const ChatInterface: React.FC = () => {
   useEffect(() => {
     scrollToBottom();
   }, [messages]);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      // Здесь можно добавить логику обработки файла
+      const file = files[0];
+      console.log('Selected file:', file.name);
+      
+      // Очищаем input после выбора файла, чтобы можно было загрузить тот же файл повторно
+      e.target.value = '';
+    }
+  };
+
+  const handleFileButtonClick = () => {
+    fileInputRef.current?.click();
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -109,6 +126,20 @@ const ChatInterface: React.FC = () => {
       {/* Input Form */}
       <div className="border-t border-gray-200 p-4 bg-white">
         <form onSubmit={handleSubmit} className="flex space-x-4">
+          <input
+            type="file"
+            ref={fileInputRef}
+            onChange={handleFileSelect}
+            className="hidden"
+          />
+          <button
+            type="button"
+            onClick={handleFileButtonClick}
+            className="bg-gray-100 text-gray-600 px-4 py-2 rounded-lg hover:bg-gray-200 
+                     flex items-center space-x-2"
+          >
+            <Paperclip size={20} />
+          </button>
           <input
             type="text"
             value={input}
